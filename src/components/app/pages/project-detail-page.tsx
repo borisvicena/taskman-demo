@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,57 +23,27 @@ interface ProjectDetailPageProps {
     dueDate?: string;
   }) => void;
   onInviteMember?: (memberId: string) => void;
-  onTaskClick?: (taskId: string) => void;
-}
-
-function getStatusVariant(status: string): "active" | "on-hold" | "completed" | "in-progress" | "not-started" {
-  switch (status) {
-    case "Active":
-      return "active";
-    case "On-Hold":
-      return "on-hold";
-    case "Completed":
-      return "completed";
-    case "In-Progress":
-      return "in-progress";
-    case "Not Started":
-      return "not-started";
-    default:
-      return "active";
-  }
-}
-
-function getPriorityVariant(priority: TaskPriority): "high" | "medium" | "low" {
-  switch (priority) {
-    case "High":
-      return "high";
-    case "Medium":
-      return "medium";
-    case "Low":
-      return "low";
-    default:
-      return "medium";
-  }
 }
 
 interface TaskRowProps {
   task: Task;
-  onClick?: () => void;
+  projectId: string;
   level?: number;
 }
 
-function TaskRow({ task, onClick, level = 0 }: TaskRowProps) {
+function TaskRow({ task, projectId, level = 0 }: TaskRowProps) {
   const [isExpanded, setIsExpanded] = React.useState(true);
   const hasSubtasks = task.subtasks && task.subtasks.length > 0;
 
   return (
     <>
-      <tr className="border-b border-slate-100 hover:bg-slate-50 cursor-pointer" onClick={onClick}>
+      <tr className="border-b border-slate-100 hover:bg-slate-50">
         <td className="py-3 px-4">
           <div className="flex items-center gap-2" style={{ paddingLeft: `${level * 24}px` }}>
             {hasSubtasks ? (
               <button
                 onClick={(e) => {
+                  e.preventDefault();
                   e.stopPropagation();
                   setIsExpanded(!isExpanded);
                 }}
@@ -87,10 +58,13 @@ function TaskRow({ task, onClick, level = 0 }: TaskRowProps) {
             ) : (
               <div className="w-5" />
             )}
-            <div>
-              <p className="font-medium text-slate-900">{task.name}</p>
+            <Link
+              href={`/projects/${projectId}/tasks/${task.id}`}
+              className="flex-1 hover:text-blue-600"
+            >
+              <p className="font-medium text-slate-900 hover:text-blue-600">{task.name}</p>
               {task.description && <p className="text-sm text-slate-500">{task.description}</p>}
-            </div>
+            </Link>
           </div>
         </td>
         <td className="py-3 px-4 text-slate-600">{task.assignee?.name || "-"}</td>
@@ -130,7 +104,6 @@ export function ProjectDetailPage({
   onBack,
   onCreateTask,
   onInviteMember,
-  onTaskClick,
 }: ProjectDetailPageProps) {
   const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = React.useState(false);
   const [isInviteMemberModalOpen, setIsInviteMemberModalOpen] = React.useState(false);
@@ -141,13 +114,13 @@ export function ProjectDetailPage({
 
       <main className="mx-auto max-w-7xl px-6 py-8">
         {/* Back button */}
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm font-medium mb-6"
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm font-medium mb-6"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Projects
-        </button>
+        </Link>
 
         {/* Project header card */}
         <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
@@ -217,7 +190,7 @@ export function ProjectDetailPage({
               </thead>
               <tbody>
                 {project.tasks.map((task) => (
-                  <TaskRow key={task.id} task={task} onClick={() => onTaskClick?.(task.id)} />
+                  <TaskRow key={task.id} task={task} projectId={project.id} />
                 ))}
               </tbody>
             </table>

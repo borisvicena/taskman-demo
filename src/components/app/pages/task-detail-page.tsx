@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +12,7 @@ import type { Task, User as UserType, TaskStatus } from "@/lib/types";
 
 interface TaskDetailPageProps {
   task: Task;
+  projectId: string;
   projectName: string;
   projectMembers?: UserType[];
   onBack?: () => void;
@@ -21,10 +23,6 @@ interface TaskDetailPageProps {
   onCreateSubtask?: (name: string) => void;
   onEditSubtask?: (subtaskId: string) => void;
   onDeleteSubtask?: (subtaskId: string) => void;
-}
-
-function getStatusVariant(status: string) {
-  return "default";
 }
 
 function getPriorityVariant(priority: string): "default" | "secondary" | "outline" {
@@ -42,6 +40,7 @@ function getPriorityVariant(priority: string): "default" | "secondary" | "outlin
 
 export function TaskDetailPage({
   task,
+  projectId,
   projectName,
   projectMembers = [],
   onBack,
@@ -64,13 +63,13 @@ export function TaskDetailPage({
 
       <main className="mx-auto max-w-7xl px-6 py-8">
         {/* Back button */}
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm font-medium mb-6"
+        <Link
+          href={`/projects/${projectId}`}
+          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm font-medium mb-6"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to {projectName}
-        </button>
+        </Link>
 
         {/* Task header card */}
         <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
@@ -146,7 +145,7 @@ export function TaskDetailPage({
                           Edit
                         </Button>
                         <Button variant="destructive" size="sm" onClick={() => onDeleteSubtask?.(subtask.id)}>
-                          Delete ✕
+                          Delete
                         </Button>
                       </div>
                     </td>

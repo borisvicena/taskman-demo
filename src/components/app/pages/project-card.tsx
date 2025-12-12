@@ -1,5 +1,4 @@
-"use client";
-
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { CheckSquare, Users, Calendar } from "lucide-react";
@@ -8,7 +7,6 @@ import type { Project, ProjectStatus } from "@/lib/types";
 
 interface ProjectCardProps {
   project: Project;
-  onClick?: () => void;
 }
 
 function getStatusVariant(status: ProjectStatus): "default" | "secondary" | "outline" {
@@ -24,11 +22,11 @@ function getStatusVariant(status: ProjectStatus): "default" | "secondary" | "out
   }
 }
 
-export function ProjectCard({ project, onClick }: ProjectCardProps) {
+export function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <div
-      onClick={onClick}
-      className="cursor-pointer rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-all hover:shadow-md"
+    <Link
+      href={`/projects/${project.id}`}
+      className="block cursor-pointer rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-all hover:shadow-md"
     >
       <div className="flex items-start justify-between">
         <h3 className="font-semibold text-slate-900">{project.name}</h3>
@@ -65,6 +63,6 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
           </div>
         )}
       </div>
-    </div>
+    </Link>
   );
 }

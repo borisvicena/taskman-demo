@@ -17,14 +17,12 @@ interface ProjectsListPageProps {
     status: string;
     memberIds: string[];
   }) => void;
-  onProjectClick?: (projectId: string) => void;
 }
 
 export function ProjectsListPage({
   projects,
   availableMembers = [],
   onCreateProject,
-  onProjectClick,
 }: ProjectsListPageProps) {
   const [filter, setFilter] = React.useState<ProjectFilter>("All");
   const [isCreateModalOpen, setIsCreateModalOpen] = React.useState(false);
@@ -65,7 +63,7 @@ export function ProjectsListPage({
 
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} onClick={() => onProjectClick?.(project.id)} />
+            <ProjectCard key={project.id} project={project} />
           ))}
         </div>
 
