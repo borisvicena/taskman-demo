@@ -1,7 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,14 +20,19 @@ interface InviteMemberModalProps {
   availableMembers?: User[];
 }
 
-export function InviteMemberModal({ open, onOpenChange, onSubmit, availableMembers = [] }: InviteMemberModalProps) {
+export function InviteMemberModal({
+  open,
+  onOpenChange,
+  onSubmit,
+  availableMembers = [],
+}: InviteMemberModalProps) {
   const [memberSearch, setMemberSearch] = React.useState("");
 
   const handleSubmit = () => {
     const member = availableMembers.find(
       (m) =>
         m.name.toLowerCase().includes(memberSearch.toLowerCase()) ||
-        m.email.toLowerCase().includes(memberSearch.toLowerCase())
+        m.email.toLowerCase().includes(memberSearch.toLowerCase()),
     );
     if (member) {
       onSubmit?.(member.id);
@@ -34,8 +45,12 @@ export function InviteMemberModal({ open, onOpenChange, onSubmit, availableMembe
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-125">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">Invite member</DialogTitle>
-          <DialogDescription className="text-blue-600">Find and add a new project member</DialogDescription>
+          <DialogTitle className="text-xl font-semibold">
+            Invite member
+          </DialogTitle>
+          <DialogDescription className="text-blue-600">
+            Find and add a new project member
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
@@ -49,7 +64,9 @@ export function InviteMemberModal({ open, onOpenChange, onSubmit, availableMembe
               value={memberSearch}
               onChange={(e) => setMemberSearch(e.target.value)}
             />
-            <p className="text-sm text-slate-500">Find members by email or name.</p>
+            <p className="text-sm text-slate-500">
+              Find members by email or name.
+            </p>
           </div>
         </div>
 

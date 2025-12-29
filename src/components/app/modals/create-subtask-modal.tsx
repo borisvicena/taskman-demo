@@ -1,7 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,7 +18,11 @@ interface CreateSubtaskModalProps {
   onSubmit?: (name: string) => void;
 }
 
-export function CreateSubtaskModal({ open, onOpenChange, onSubmit }: CreateSubtaskModalProps) {
+export function CreateSubtaskModal({
+  open,
+  onOpenChange,
+  onSubmit,
+}: CreateSubtaskModalProps) {
   const [name, setName] = React.useState("");
 
   const handleSubmit = () => {
@@ -26,8 +36,12 @@ export function CreateSubtaskModal({ open, onOpenChange, onSubmit }: CreateSubta
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-125">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">Create Subtask</DialogTitle>
-          <DialogDescription className="text-blue-600">Add a new subtask to this task</DialogDescription>
+          <DialogTitle className="text-xl font-semibold">
+            Create Subtask
+          </DialogTitle>
+          <DialogDescription className="text-blue-600">
+            Add a new subtask to this task
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
@@ -35,7 +49,12 @@ export function CreateSubtaskModal({ open, onOpenChange, onSubmit }: CreateSubta
             <Label htmlFor="name" className="text-slate-600">
               Name
             </Label>
-            <Input id="name" placeholder="Subtask name" value={name} onChange={(e) => setName(e.target.value)} />
+            <Input
+              id="name"
+              placeholder="Subtask name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
         </div>
 

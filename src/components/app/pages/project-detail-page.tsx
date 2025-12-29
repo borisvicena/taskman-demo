@@ -6,10 +6,22 @@ import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Calendar, Users, ChevronDown, ChevronRight } from "lucide-react";
+import {
+  ArrowLeft,
+  Calendar,
+  Users,
+  ChevronDown,
+  ChevronRight,
+} from "lucide-react";
 import { CreateTaskModal, InviteMemberModal } from "@/components/app/modals";
 import { formatDate } from "@/lib/utils";
-import type { Project, Task, User, TaskStatus, TaskPriority } from "@/lib/types";
+import type {
+  Project,
+  Task,
+  User,
+  TaskStatus,
+  TaskPriority,
+} from "@/lib/types";
 
 interface ProjectDetailPageProps {
   project: Project;
@@ -39,7 +51,10 @@ function TaskRow({ task, projectId, level = 0 }: TaskRowProps) {
     <>
       <tr className="border-b border-slate-100 hover:bg-slate-50">
         <td className="py-3 px-4">
-          <div className="flex items-center gap-2" style={{ paddingLeft: `${level * 24}px` }}>
+          <div
+            className="flex items-center gap-2"
+            style={{ paddingLeft: `${level * 24}px` }}
+          >
             {hasSubtasks ? (
               <button
                 onClick={(e) => {
@@ -62,12 +77,18 @@ function TaskRow({ task, projectId, level = 0 }: TaskRowProps) {
               href={`/projects/${projectId}/tasks/${task.id}`}
               className="flex-1 hover:text-blue-600"
             >
-              <p className="font-medium text-slate-900 hover:text-blue-600">{task.name}</p>
-              {task.description && <p className="text-sm text-slate-500">{task.description}</p>}
+              <p className="font-medium text-slate-900 hover:text-blue-600">
+                {task.name}
+              </p>
+              {task.description && (
+                <p className="text-sm text-slate-500">{task.description}</p>
+              )}
             </Link>
           </div>
         </td>
-        <td className="py-3 px-4 text-slate-600">{task.assignee?.name || "-"}</td>
+        <td className="py-3 px-4 text-slate-600">
+          {task.assignee?.name || "-"}
+        </td>
         <td className="py-3 px-4">
           <Badge variant={"default"}>{task.status}</Badge>
         </td>
@@ -75,14 +96,22 @@ function TaskRow({ task, projectId, level = 0 }: TaskRowProps) {
           {task.priority && <Badge variant={"default"}>{task.priority}</Badge>}
           {!task.priority && "-"}
         </td>
-        <td className="py-3 px-4 text-slate-600">{task.dueDate ? formatDate(task.dueDate) : "-"}</td>
+        <td className="py-3 px-4 text-slate-600">
+          {task.dueDate ? formatDate(task.dueDate) : "-"}
+        </td>
       </tr>
       {hasSubtasks &&
         isExpanded &&
         task.subtasks.map((subtask) => (
-          <tr key={subtask.id} className="border-b border-slate-100 hover:bg-slate-50 bg-slate-50/50">
+          <tr
+            key={subtask.id}
+            className="border-b border-slate-100 hover:bg-slate-50 bg-slate-50/50"
+          >
             <td className="py-3 px-4">
-              <div className="flex items-center gap-2" style={{ paddingLeft: `${(level + 1) * 24 + 20}px` }}>
+              <div
+                className="flex items-center gap-2"
+                style={{ paddingLeft: `${(level + 1) * 24 + 20}px` }}
+              >
                 <p className="text-slate-700">{subtask.name}</p>
               </div>
             </td>
@@ -105,8 +134,10 @@ export function ProjectDetailPage({
   onCreateTask,
   onInviteMember,
 }: ProjectDetailPageProps) {
-  const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = React.useState(false);
-  const [isInviteMemberModalOpen, setIsInviteMemberModalOpen] = React.useState(false);
+  const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] =
+    React.useState(false);
+  const [isInviteMemberModalOpen, setIsInviteMemberModalOpen] =
+    React.useState(false);
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -126,7 +157,9 @@ export function ProjectDetailPage({
         <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-slate-900">{project.name}</h2>
+              <h2 className="text-2xl font-bold text-slate-900">
+                {project.name}
+              </h2>
               <p className="mt-1 text-slate-500">{project.description}</p>
             </div>
             <Badge variant={"default"}>{project.status}</Badge>
@@ -157,7 +190,8 @@ export function ProjectDetailPage({
                 <span className="text-sm text-slate-500">Team members</span>
                 <br />
                 <span className="text-sm text-slate-700">
-                  {project.members.map((m) => m.name).join(", ") || "No members"}
+                  {project.members.map((m) => m.name).join(", ") ||
+                    "No members"}
                 </span>
               </div>
               <button
@@ -174,18 +208,30 @@ export function ProjectDetailPage({
         <div className="mt-8 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold text-slate-900">Tasks</h3>
-            <Button onClick={() => setIsCreateTaskModalOpen(true)}>Create Task</Button>
+            <Button onClick={() => setIsCreateTaskModalOpen(true)}>
+              Create Task
+            </Button>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-slate-200">
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">Task Name</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">Assigned To</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">Status</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">Priority</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">Due Date</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">
+                    Task Name
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">
+                    Assigned To
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">
+                    Status
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">
+                    Priority
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">
+                    Due Date
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -198,7 +244,11 @@ export function ProjectDetailPage({
             {project.tasks.length === 0 && (
               <div className="py-12 text-center">
                 <p className="text-slate-500">No tasks yet</p>
-                <Button variant="outline" className="mt-4" onClick={() => setIsCreateTaskModalOpen(true)}>
+                <Button
+                  variant="outline"
+                  className="mt-4"
+                  onClick={() => setIsCreateTaskModalOpen(true)}
+                >
                   Create your first task
                 </Button>
               </div>
@@ -207,7 +257,11 @@ export function ProjectDetailPage({
         </div>
       </main>
 
-      <CreateTaskModal open={isCreateTaskModalOpen} onOpenChange={setIsCreateTaskModalOpen} onSubmit={onCreateTask} />
+      <CreateTaskModal
+        open={isCreateTaskModalOpen}
+        onOpenChange={setIsCreateTaskModalOpen}
+        onSubmit={onCreateTask}
+      />
 
       <InviteMemberModal
         open={isInviteMemberModalOpen}

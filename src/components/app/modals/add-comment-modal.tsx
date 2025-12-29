@@ -1,7 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,7 +18,11 @@ interface AddCommentModalProps {
   onSubmit?: (comment: string) => void;
 }
 
-export function AddCommentModal({ open, onOpenChange, onSubmit }: AddCommentModalProps) {
+export function AddCommentModal({
+  open,
+  onOpenChange,
+  onSubmit,
+}: AddCommentModalProps) {
   const [comment, setComment] = React.useState("");
 
   const handleSubmit = () => {
@@ -26,8 +36,12 @@ export function AddCommentModal({ open, onOpenChange, onSubmit }: AddCommentModa
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-125">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">Add Comment</DialogTitle>
-          <DialogDescription className="text-blue-600">Add a comment to this task</DialogDescription>
+          <DialogTitle className="text-xl font-semibold">
+            Add Comment
+          </DialogTitle>
+          <DialogDescription className="text-blue-600">
+            Add a comment to this task
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
@@ -35,7 +49,12 @@ export function AddCommentModal({ open, onOpenChange, onSubmit }: AddCommentModa
             <Label htmlFor="comment" className="text-slate-600">
               Comment
             </Label>
-            <Input id="comment" placeholder="Comment" value={comment} onChange={(e) => setComment(e.target.value)} />
+            <Input
+              id="comment"
+              placeholder="Comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
             <p className="text-sm text-slate-500">Write your comment</p>
           </div>
         </div>

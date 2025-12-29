@@ -1,11 +1,23 @@
 "use client";
 
 import * as React from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Calendar } from "lucide-react";
 import type { ProjectStatus, User } from "@/lib/types";
 
@@ -22,7 +34,12 @@ interface CreateProjectModalProps {
   availableMembers?: User[];
 }
 
-export function CreateProjectModal({ open, onOpenChange, onSubmit, availableMembers = [] }: CreateProjectModalProps) {
+export function CreateProjectModal({
+  open,
+  onOpenChange,
+  onSubmit,
+  availableMembers = [],
+}: CreateProjectModalProps) {
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [dueDate, setDueDate] = React.useState("");
@@ -34,7 +51,7 @@ export function CreateProjectModal({ open, onOpenChange, onSubmit, availableMemb
     const member = availableMembers.find(
       (m) =>
         m.name.toLowerCase().includes(memberSearch.toLowerCase()) ||
-        m.email.toLowerCase().includes(memberSearch.toLowerCase())
+        m.email.toLowerCase().includes(memberSearch.toLowerCase()),
     );
     if (member && !addedMembers.find((m) => m.id === member.id)) {
       setAddedMembers([...addedMembers, member]);
@@ -64,8 +81,12 @@ export function CreateProjectModal({ open, onOpenChange, onSubmit, availableMemb
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-125">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">Create project</DialogTitle>
-          <DialogDescription className="text-blue-600">Provide information about your project</DialogDescription>
+          <DialogTitle className="text-xl font-semibold">
+            Create project
+          </DialogTitle>
+          <DialogDescription className="text-blue-600">
+            Provide information about your project
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
@@ -73,7 +94,12 @@ export function CreateProjectModal({ open, onOpenChange, onSubmit, availableMemb
             <Label htmlFor="name" className="text-right text-slate-600">
               Name
             </Label>
-            <Input id="name" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+            <Input
+              id="name"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center gap-4">
@@ -109,7 +135,10 @@ export function CreateProjectModal({ open, onOpenChange, onSubmit, availableMemb
             <Label htmlFor="status" className="text-right text-slate-600">
               Status
             </Label>
-            <Select value={status} onValueChange={(v) => setStatus(v as ProjectStatus)}>
+            <Select
+              value={status}
+              onValueChange={(v) => setStatus(v as ProjectStatus)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
@@ -141,7 +170,8 @@ export function CreateProjectModal({ open, onOpenChange, onSubmit, availableMemb
               </div>
               {addedMembers.length > 0 && (
                 <p className="text-sm text-blue-600">
-                  {addedMembers.length} member{addedMembers.length > 1 ? "s" : ""} added
+                  {addedMembers.length} member
+                  {addedMembers.length > 1 ? "s" : ""} added
                 </p>
               )}
             </div>

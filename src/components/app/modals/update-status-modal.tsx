@@ -1,10 +1,22 @@
 "use client";
 
 import * as React from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import type { TaskStatus } from "@/lib/types";
 
 interface UpdateStatusModalProps {
@@ -14,8 +26,15 @@ interface UpdateStatusModalProps {
   currentStatus?: TaskStatus;
 }
 
-export function UpdateStatusModal({ open, onOpenChange, onSubmit, currentStatus }: UpdateStatusModalProps) {
-  const [status, setStatus] = React.useState<TaskStatus | "">(currentStatus || "");
+export function UpdateStatusModal({
+  open,
+  onOpenChange,
+  onSubmit,
+  currentStatus,
+}: UpdateStatusModalProps) {
+  const [status, setStatus] = React.useState<TaskStatus | "">(
+    currentStatus || "",
+  );
 
   React.useEffect(() => {
     if (currentStatus) {
@@ -33,8 +52,12 @@ export function UpdateStatusModal({ open, onOpenChange, onSubmit, currentStatus 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-125">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">Update status</DialogTitle>
-          <DialogDescription className="text-blue-600">Change the status of this task</DialogDescription>
+          <DialogTitle className="text-xl font-semibold">
+            Update status
+          </DialogTitle>
+          <DialogDescription className="text-blue-600">
+            Change the status of this task
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
@@ -42,7 +65,10 @@ export function UpdateStatusModal({ open, onOpenChange, onSubmit, currentStatus 
             <Label htmlFor="status" className="text-slate-600">
               Status
             </Label>
-            <Select value={status} onValueChange={(v) => setStatus(v as TaskStatus)}>
+            <Select
+              value={status}
+              onValueChange={(v) => setStatus(v as TaskStatus)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>

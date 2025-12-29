@@ -70,7 +70,11 @@ export function ProjectsListPage({
         {filteredProjects.length === 0 && (
           <div className="mt-12 text-center">
             <p className="text-slate-500">No projects found</p>
-            <Button variant="outline" className="mt-4" onClick={() => setIsCreateModalOpen(true)}>
+            <Button
+              variant="outline"
+              className="mt-4"
+              onClick={() => setIsCreateModalOpen(true)}
+            >
               Create your first project
             </Button>
           </div>

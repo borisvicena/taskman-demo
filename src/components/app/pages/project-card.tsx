@@ -9,7 +9,9 @@ interface ProjectCardProps {
   project: Project;
 }
 
-function getStatusVariant(status: ProjectStatus): "default" | "secondary" | "outline" {
+function getStatusVariant(
+  status: ProjectStatus,
+): "default" | "secondary" | "outline" {
   switch (status) {
     case "Active":
       return "default";
@@ -30,10 +32,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
     >
       <div className="flex items-start justify-between">
         <h3 className="font-semibold text-slate-900">{project.name}</h3>
-        <Badge variant={getStatusVariant(project.status)}>{project.status}</Badge>
+        <Badge variant={getStatusVariant(project.status)}>
+          {project.status}
+        </Badge>
       </div>
 
-      <p className="mt-2 text-sm text-slate-500 line-clamp-2">{project.description}</p>
+      <p className="mt-2 text-sm text-slate-500 line-clamp-2">
+        {project.description}
+      </p>
 
       <div className="mt-4">
         <div className="flex items-center justify-between text-sm text-slate-500">

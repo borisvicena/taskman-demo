@@ -118,7 +118,8 @@ export const mockProjects: Project[] = [
   {
     id: "project-1",
     name: "Website Redesign",
-    description: "Complete overhaul of company website with modern design and improved UX",
+    description:
+      "Complete overhaul of company website with modern design and improved UX",
     status: "Active",
     progress: 65,
     dueDate: new Date("2025-12-15"),

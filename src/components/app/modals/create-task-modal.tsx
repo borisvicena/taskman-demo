@@ -1,11 +1,23 @@
 "use client";
 
 import * as React from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Calendar } from "lucide-react";
 import type { TaskStatus, TaskPriority } from "@/lib/types";
 
@@ -21,7 +33,11 @@ interface CreateTaskModalProps {
   }) => void;
 }
 
-export function CreateTaskModal({ open, onOpenChange, onSubmit }: CreateTaskModalProps) {
+export function CreateTaskModal({
+  open,
+  onOpenChange,
+  onSubmit,
+}: CreateTaskModalProps) {
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [status, setStatus] = React.useState<TaskStatus | "">("");
@@ -50,8 +66,12 @@ export function CreateTaskModal({ open, onOpenChange, onSubmit }: CreateTaskModa
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-125">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">Create task</DialogTitle>
-          <DialogDescription className="text-blue-600">Add a new task to your project</DialogDescription>
+          <DialogTitle className="text-xl font-semibold">
+            Create task
+          </DialogTitle>
+          <DialogDescription className="text-blue-600">
+            Add a new task to your project
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
@@ -59,7 +79,12 @@ export function CreateTaskModal({ open, onOpenChange, onSubmit }: CreateTaskModa
             <Label htmlFor="name" className="text-right text-slate-600">
               Name
             </Label>
-            <Input id="name" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+            <Input
+              id="name"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center gap-4">
@@ -78,7 +103,10 @@ export function CreateTaskModal({ open, onOpenChange, onSubmit }: CreateTaskModa
             <Label htmlFor="status" className="text-right text-slate-600">
               Status
             </Label>
-            <Select value={status} onValueChange={(v) => setStatus(v as TaskStatus)}>
+            <Select
+              value={status}
+              onValueChange={(v) => setStatus(v as TaskStatus)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
@@ -94,7 +122,10 @@ export function CreateTaskModal({ open, onOpenChange, onSubmit }: CreateTaskModa
             <Label htmlFor="importance" className="text-right text-slate-600">
               Importance
             </Label>
-            <Select value={priority} onValueChange={(v) => setPriority(v as TaskPriority)}>
+            <Select
+              value={priority}
+              onValueChange={(v) => setPriority(v as TaskPriority)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select importance" />
               </SelectTrigger>

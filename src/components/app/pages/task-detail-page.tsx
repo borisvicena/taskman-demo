@@ -6,7 +6,12 @@ import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calendar, User, Pencil } from "lucide-react";
-import { AssignMemberModal, AddCommentModal, UpdateStatusModal, CreateSubtaskModal } from "@/components/app/modals";
+import {
+  AssignMemberModal,
+  AddCommentModal,
+  UpdateStatusModal,
+  CreateSubtaskModal,
+} from "@/components/app/modals";
 import { formatDate } from "@/lib/utils";
 import type { Task, User as UserType, TaskStatus } from "@/lib/types";
 
@@ -25,7 +30,9 @@ interface TaskDetailPageProps {
   onDeleteSubtask?: (subtaskId: string) => void;
 }
 
-function getPriorityVariant(priority: string): "default" | "secondary" | "outline" {
+function getPriorityVariant(
+  priority: string,
+): "default" | "secondary" | "outline" {
   switch (priority) {
     case "High":
       return "default";
@@ -80,7 +87,9 @@ export function TaskDetailPage({
             </div>
             <div className="flex items-center gap-2">
               <Badge variant={"default"}>{task.status}</Badge>
-              <Badge variant={getPriorityVariant(task.priority)}>{task.priority}</Badge>
+              <Badge variant={getPriorityVariant(task.priority)}>
+                {task.priority}
+              </Badge>
             </div>
           </div>
 
@@ -91,7 +100,9 @@ export function TaskDetailPage({
                 <div>
                   <span className="text-sm text-slate-500">Due date</span>
                   <br />
-                  <span className="text-sm font-medium">{task.dueDate ? formatDate(task.dueDate) : "Not set"}</span>
+                  <span className="text-sm font-medium">
+                    {task.dueDate ? formatDate(task.dueDate) : "Not set"}
+                  </span>
                 </div>
               </div>
 
@@ -100,9 +111,14 @@ export function TaskDetailPage({
                 <div>
                   <span className="text-sm text-slate-500">Assignee</span>
                   <br />
-                  <span className="text-sm font-medium">{task.assignee?.name || "Unassigned"}</span>
+                  <span className="text-sm font-medium">
+                    {task.assignee?.name || "Unassigned"}
+                  </span>
                 </div>
-                <button onClick={() => setIsAssignModalOpen(true)} className="ml-1 p-1 hover:bg-slate-100 rounded">
+                <button
+                  onClick={() => setIsAssignModalOpen(true)}
+                  className="ml-1 p-1 hover:bg-slate-100 rounded"
+                >
                   <Pencil className="h-3 w-3 text-slate-400" />
                 </button>
               </div>
@@ -119,32 +135,51 @@ export function TaskDetailPage({
         <div className="mt-8 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold text-slate-900">Subtasks</h3>
-            <Button onClick={() => setIsSubtaskModalOpen(true)}>Create Subtask</Button>
+            <Button onClick={() => setIsSubtaskModalOpen(true)}>
+              Create Subtask
+            </Button>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-slate-200">
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">Task Name</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">Status</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">Edit</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">
+                    Task Name
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">
+                    Status
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">
+                    Edit
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {task.subtasks.map((subtask) => (
-                  <tr key={subtask.id} className="border-b border-slate-100 hover:bg-slate-50">
+                  <tr
+                    key={subtask.id}
+                    className="border-b border-slate-100 hover:bg-slate-50"
+                  >
                     <td className="py-3 px-4 text-slate-900">{subtask.name}</td>
                     <td className="py-3 px-4">
                       <Badge variant={"default"}>{subtask.status}</Badge>
                     </td>
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm" onClick={() => onEditSubtask?.(subtask.id)}>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => onEditSubtask?.(subtask.id)}
+                        >
                           <Pencil className="h-4 w-4 mr-1" />
                           Edit
                         </Button>
-                        <Button variant="destructive" size="sm" onClick={() => onDeleteSubtask?.(subtask.id)}>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => onDeleteSubtask?.(subtask.id)}
+                        >
                           Delete
                         </Button>
                       </div>
@@ -157,7 +192,11 @@ export function TaskDetailPage({
             {task.subtasks.length === 0 && (
               <div className="py-12 text-center">
                 <p className="text-slate-500">No subtasks yet</p>
-                <Button variant="outline" className="mt-4" onClick={() => setIsSubtaskModalOpen(true)}>
+                <Button
+                  variant="outline"
+                  className="mt-4"
+                  onClick={() => setIsSubtaskModalOpen(true)}
+                >
                   Create your first subtask
                 </Button>
               </div>
@@ -169,31 +208,48 @@ export function TaskDetailPage({
         <div className="mt-8 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold text-slate-900">Comments</h3>
-            <Button onClick={() => setIsCommentModalOpen(true)}>Add Comment</Button>
+            <Button onClick={() => setIsCommentModalOpen(true)}>
+              Add Comment
+            </Button>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-slate-200">
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">Member</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">Comment</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">Date</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">
+                    Member
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">
+                    Comment
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-900">
+                    Date
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {task.comments.map((comment) => (
-                  <tr key={comment.id} className="border-b border-slate-100 hover:bg-slate-50">
+                  <tr
+                    key={comment.id}
+                    className="border-b border-slate-100 hover:bg-slate-50"
+                  >
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-2">
                         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-sm font-medium text-blue-700">
                           {comment.user.initials}
                         </div>
-                        <span className="text-slate-900">{comment.user.name}</span>
+                        <span className="text-slate-900">
+                          {comment.user.name}
+                        </span>
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-slate-600">{comment.content}</td>
-                    <td className="py-3 px-4 text-slate-600">{formatDate(comment.createdAt)}</td>
+                    <td className="py-3 px-4 text-slate-600">
+                      {comment.content}
+                    </td>
+                    <td className="py-3 px-4 text-slate-600">
+                      {formatDate(comment.createdAt)}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -202,7 +258,11 @@ export function TaskDetailPage({
             {task.comments.length === 0 && (
               <div className="py-12 text-center">
                 <p className="text-slate-500">No comments yet</p>
-                <Button variant="outline" className="mt-4" onClick={() => setIsCommentModalOpen(true)}>
+                <Button
+                  variant="outline"
+                  className="mt-4"
+                  onClick={() => setIsCommentModalOpen(true)}
+                >
                   Add the first comment
                 </Button>
               </div>
@@ -225,9 +285,17 @@ export function TaskDetailPage({
         currentStatus={task.status}
       />
 
-      <AddCommentModal open={isCommentModalOpen} onOpenChange={setIsCommentModalOpen} onSubmit={onAddComment} />
+      <AddCommentModal
+        open={isCommentModalOpen}
+        onOpenChange={setIsCommentModalOpen}
+        onSubmit={onAddComment}
+      />
 
-      <CreateSubtaskModal open={isSubtaskModalOpen} onOpenChange={setIsSubtaskModalOpen} onSubmit={onCreateSubtask} />
+      <CreateSubtaskModal
+        open={isSubtaskModalOpen}
+        onOpenChange={setIsSubtaskModalOpen}
+        onSubmit={onCreateSubtask}
+      />
     </div>
   );
 }
