@@ -39,7 +39,7 @@ export default function SignInForm() {
           Must be at least 8 characters
         </p>
       </div>
-      <Button type="submit" className="w-full" disabled={pending}>
+      <Button type="submit" className="w-full bg-slate-700" disabled={pending}>
         {pending && <Spinner />}
         Sign In
       </Button>
