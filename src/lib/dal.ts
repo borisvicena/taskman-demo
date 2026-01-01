@@ -85,7 +85,114 @@ export const getProjects = cache(async () => {
 
     return data;
   } catch (error) {
-    console.error("Failed to fetch user", error);
+    console.error("Failed to get projects", error);
     return null;
   }
 });
+
+export const getProjectDetails = cache(async (projectId: number) => {
+  const session = await verifySession();
+
+  if (!session.isAuth) return null;
+
+  // console.log('Session userId:', session.userId);
+  // console.log('Access token:', session.accessToken);
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/projects/${projectId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.accessToken}`,
+        },
+      },
+    );
+
+    const data = await res.json();
+
+    // console.log("Response status:", res.status);
+    // console.log("Response data:", data);
+
+    if (!res.ok) {
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Failed to get project details", error);
+    return null;
+  }
+});
+
+export const getProjectDetailsWithTasks = cache(async (projectId: number) => {
+  const session = await verifySession();
+
+  if (!session.isAuth) return null;
+
+  // console.log('Session userId:', session.userId);
+  // console.log('Access token:', session.accessToken);
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/projects/${projectId}/with-tasks`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.accessToken}`,
+        },
+      },
+    );
+
+    const data = await res.json();
+
+    // console.log("Response status:", res.status);
+    // console.log("Response data:", data);
+
+    if (!res.ok) {
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Failed to get project details with tasks", error);
+    return null;
+  }
+});
+
+export const getProjectTaskDetails = cache(
+  async (projectId: number, taskId: number) => {
+    const session = await verifySession();
+
+    if (!session.isAuth) return null;
+
+    // console.log('Session userId:', session.userId);
+    // console.log('Access token:', session.accessToken);
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/projects/${projectId}/tasks/${taskId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session.accessToken}`,
+          },
+        },
+      );
+
+      const data = await res.json();
+
+      // console.log("Response status:", res.status);
+      // console.log("Response data:", data);
+
+      if (!res.ok) {
+        return null;
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Failed to get project task details", error);
+      return null;
+    }
+  },
+);

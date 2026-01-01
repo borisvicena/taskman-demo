@@ -55,3 +55,41 @@ export async function createProject(state: any, formData: FormData) {
     return { message: "Something went wrong" };
   }
 }
+
+export async function deleteProject(state: any, formData: FormData) {
+  const session = await verifySession();
+
+  if (!session.isAuth) {
+    return { message: "Unauthorized" };
+  }
+
+  const id = formData.get("id");
+
+  if (!id) {
+    return { message: "Project ID is required" };
+  }
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/projects/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.accessToken}`,
+        },
+      },
+    );
+
+    if (!res.ok) {
+      const data = await res.json();
+      return { message: data.message || "Failed to delete project" };
+    }
+
+    revalidatePath("/");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to delete project:", error);
+    return { message: "Something went wrong" };
+  }
+}

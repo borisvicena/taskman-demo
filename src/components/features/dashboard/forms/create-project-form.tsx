@@ -38,7 +38,13 @@ export default function CreateProjectForm({ onSuccess }: Props) {
       <div className="py-4">
         <div className="space-y-2">
           <Label htmlFor="name">Name</Label>
-          <Input id="name" name="name" placeholder="Project Alpha" autoFocus />
+          <Input
+            id="name"
+            name="name"
+            placeholder="Project Alpha"
+            autoFocus
+            tabIndex={1}
+          />
           {state?.errors?.name && (
             <p className="text-sm text-destructive">{state.errors.name[0]}</p>
           )}
@@ -52,7 +58,7 @@ export default function CreateProjectForm({ onSuccess }: Props) {
             id="description"
             name="description"
             placeholder="Super secret project"
-            autoFocus
+            tabIndex={2}
           />
           {state?.errors?.description && (
             <p className="text-sm text-destructive">
@@ -67,7 +73,7 @@ export default function CreateProjectForm({ onSuccess }: Props) {
       )}
 
       <DialogFooter>
-        <Button type="submit" disabled={pending}>
+        <Button type="submit" disabled={pending} tabIndex={3}>
           {pending && <Spinner />}
           Create
         </Button>

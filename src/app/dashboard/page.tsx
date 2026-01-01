@@ -1,19 +1,16 @@
 import { Metadata } from "next";
-import { getProjects } from "@/lib/dal";
-import { HomeContent } from "@/components/features/dashboard/home-content";
+import { getProjectDetailsWithTasks, getProjects } from "@/lib/dal";
+import { DashboardContent } from "@/components/features/dashboard/dashboard-content";
 
 export const metadata: Metadata = {
-  title: "TaskMan",
-  description: "TaskMan Application",
+  title: "Dashboard | TaskMan",
+  description:
+    "Manage all your projects, tasks, and subtasks in one organized space",
 };
 
-export default async function HomePage() {
+export default async function Dashboard() {
+  // Get all user projects
   const projects = await getProjects();
-  console.log("Projects", projects);
 
-  return (
-    <>
-      <HomeContent projects={projects} />
-    </>
-  );
+  return <DashboardContent projects={projects} />;
 }

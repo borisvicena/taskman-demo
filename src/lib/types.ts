@@ -1,50 +1,25 @@
 // Types for TaskMan Project Management System
 
-export type ProjectStatus = "Active" | "On-Hold" | "Completed";
-export type TaskStatus =
-  | "Not Started"
-  | "In-Progress"
-  | "Completed"
-  | "On-Hold";
-export type TaskPriority = "Low" | "Medium" | "High";
-export type ProjectFilter = "All" | "Active" | "On-Hold" | "Completed";
+// export type ProjectStatus = "Active" | "On-Hold" | "Completed";
+export type TaskStatus = "todo" | "in-progress" | "completed";
+export type TaskPriority = "low" | "medium" | "high";
 
 export interface User {
-  id: string;
+  _id: string;
   name: string;
   email: string;
-  initials: string;
-  avatar?: string;
+  googleId: string;
+  isAdmin: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  googleLinked: boolean;
 }
 
 export interface Comment {
-  id: string;
-  userId: string;
-  user: User;
+  _id: string;
+  authorId: string;
   content: string;
-  createdAt: Date;
-}
-
-export interface Subtask {
-  id: string;
-  name: string;
-  status: TaskStatus;
-  parentTaskId: string;
-}
-
-export interface Task {
-  id: string;
-  name: string;
-  description: string;
-  status: TaskStatus;
-  priority: TaskPriority;
-  dueDate?: Date;
-  assignee?: User;
-  projectId: string;
-  subtasks: Subtask[];
-  comments: Comment[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
 }
 
 export interface Member {
@@ -58,4 +33,23 @@ export interface Project {
   description: string;
   ownerId: string;
   members: Member[];
+  status: string;
+  dueDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Task {
+  _id: string;
+  projectId: string;
+  parentTaskId: string;
+  title: string;
+  description: string;
+  status: TaskStatus;
+  priority: TaskPriority;
+  assignedTo?: User;
+  dueDate?: Date;
+  comments: Comment[];
+  createdAt: Date;
+  updatedAt: Date;
 }
