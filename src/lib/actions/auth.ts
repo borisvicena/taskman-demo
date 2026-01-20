@@ -49,12 +49,20 @@ export async function signup(state: FormState, formData: FormData) {
       passwordHash,
     });
 
-    console.log("User created:", newUser._id);
+    console.log("User created successfully:", newUser._id);
 
     // Redirect to login page after successful signup
     redirect("/login");
   } catch (error) {
     console.error("Signup error:", error);
+
+    // More detailed error message
+    if (error instanceof Error) {
+      return {
+        message: `Signup failed: ${error.message}`,
+      };
+    }
+
     return {
       message: "Something went wrong. Please try again.",
     };

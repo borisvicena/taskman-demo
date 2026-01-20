@@ -21,6 +21,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
+          console.error("Missing credentials");
           throw new Error("Please enter your email and password");
         }
 
@@ -29,7 +30,13 @@ export const authOptions: NextAuthOptions = {
 
           const user = await User.findOne({ email: credentials.email });
 
-          if (!user || !user.passwordHash) {
+          if (!user) {
+            console.error("User not found:", credentials.email);
+            throw new Error("Invalid email or password");
+          }
+
+          if (!user.passwordHash) {
+            console.error("User has no password hash:", credentials.email);
             throw new Error("Invalid email or password");
           }
 
@@ -39,8 +46,11 @@ export const authOptions: NextAuthOptions = {
           );
 
           if (!isPasswordValid) {
+            console.error("Invalid password for user:", credentials.email);
             throw new Error("Invalid email or password");
           }
+
+          console.log("User authenticated successfully:", user._id);
 
           return {
             id: user._id.toString(),
@@ -49,6 +59,9 @@ export const authOptions: NextAuthOptions = {
           };
         } catch (error) {
           console.error("Authorization error:", error);
+          if (error instanceof Error) {
+            throw error;
+          }
           throw new Error("Authentication failed");
         }
       },
