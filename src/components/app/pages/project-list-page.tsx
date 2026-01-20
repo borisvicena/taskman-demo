@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Header } from "@/components/layout/header";
+// import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { ProjectCard } from "./project-card";
 import { CreateProjectModal } from "@/components/app/modals";
@@ -27,7 +27,7 @@ export function ProjectsListPage({
   const [filter, setFilter] = React.useState<ProjectFilter>("All");
   const [isCreateModalOpen, setIsCreateModalOpen] = React.useState(false);
 
-  const filters: ProjectFilter[] = ["All", "Active", "On-Hold", "Completed"];
+  const filters: ProjectFilter[] = ["All", "active", "on-hold", "done"];
 
   const filteredProjects = React.useMemo(() => {
     if (filter === "All") return projects;
@@ -36,7 +36,7 @@ export function ProjectsListPage({
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Header />
+      {/* <Header /> */}
 
       <main className="mx-auto max-w-7xl px-6 py-8">
         <div className="flex items-center justify-between">
@@ -63,7 +63,7 @@ export function ProjectsListPage({
 
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <ProjectCard key={project._id} project={project} />
           ))}
         </div>
 

@@ -1,6 +1,7 @@
 // Types for TaskMan Project Management System
 
-// export type ProjectStatus = "Active" | "On-Hold" | "Completed";
+export type ProjectStatus = "active" | "on-hold" | "done";
+export type ProjectFilter = "All" | ProjectStatus;
 export type TaskStatus = "todo" | "in-progress" | "completed";
 export type TaskPriority = "low" | "medium" | "high";
 
@@ -18,6 +19,8 @@ export interface User {
 export interface Comment {
   _id: string;
   authorId: string;
+  authorName?: string;
+  authorEmail?: string;
   content: string;
   createdAt: string;
 }
@@ -33,7 +36,7 @@ export interface Project {
   description: string;
   ownerId: string;
   members: Member[];
-  status: string;
+  status: ProjectStatus;
   dueDate: Date;
   createdAt: Date;
   updatedAt: Date;

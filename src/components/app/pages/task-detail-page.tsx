@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Header } from "@/components/layout/header";
+// import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calendar, User, Pencil } from "lucide-react";
@@ -66,7 +66,7 @@ export function TaskDetailPage({
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Header />
+      {/* <Header /> */}
 
       <main className="mx-auto max-w-7xl px-6 py-8">
         {/* Back button */}
@@ -82,7 +82,7 @@ export function TaskDetailPage({
         <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-slate-900">{task.name}</h2>
+              <h2 className="text-2xl font-bold text-slate-900">{task.title}</h2>
               <p className="mt-1 text-slate-500">{task.description}</p>
             </div>
             <div className="flex items-center gap-2">
@@ -112,7 +112,7 @@ export function TaskDetailPage({
                   <span className="text-sm text-slate-500">Assignee</span>
                   <br />
                   <span className="text-sm font-medium">
-                    {task.assignee?.name || "Unassigned"}
+                    {task.assignedTo?.name || "Unassigned"}
                   </span>
                 </div>
                 <button
@@ -156,12 +156,12 @@ export function TaskDetailPage({
                 </tr>
               </thead>
               <tbody>
-                {task.subtasks.map((subtask) => (
+                {/* {task.subtasks.map((subtask) => (
                   <tr
                     key={subtask.id}
                     className="border-b border-slate-100 hover:bg-slate-50"
                   >
-                    <td className="py-3 px-4 text-slate-900">{subtask.name}</td>
+                    <td className="py-3 px-4 text-slate-900">{subtask.title}</td>
                     <td className="py-3 px-4">
                       <Badge variant={"default"}>{subtask.status}</Badge>
                     </td>
@@ -185,11 +185,11 @@ export function TaskDetailPage({
                       </div>
                     </td>
                   </tr>
-                ))}
+                ))} */}
               </tbody>
             </table>
 
-            {task.subtasks.length === 0 && (
+            {/* {task.subtasks.length === 0 && (
               <div className="py-12 text-center">
                 <p className="text-slate-500">No subtasks yet</p>
                 <Button
@@ -200,7 +200,7 @@ export function TaskDetailPage({
                   Create your first subtask
                 </Button>
               </div>
-            )}
+            )} */}
           </div>
         </div>
 
@@ -231,7 +231,7 @@ export function TaskDetailPage({
               <tbody>
                 {task.comments.map((comment) => (
                   <tr
-                    key={comment.id}
+                    key={comment._id}
                     className="border-b border-slate-100 hover:bg-slate-50"
                   >
                     <td className="py-3 px-4">

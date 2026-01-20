@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { getUserData } from "@/lib/dal";
 import { getInitials } from "@/lib/utils";
+import { redirect } from "next/navigation";
 
 function InfoRow({
   icon: Icon,
@@ -44,6 +45,10 @@ function InfoRow({
 
 export default async function ProfilePage() {
   const user = await getUserData();
+
+  if (!user) {
+    redirect("/login");
+  }
 
   console.log(user);
 

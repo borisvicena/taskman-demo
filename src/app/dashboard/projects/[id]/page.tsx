@@ -4,9 +4,10 @@ import {
   getProjectDetailsWithTasks,
   verifySession,
 } from "@/lib/dal";
+import { notFound } from "next/navigation";
 
 interface Props {
-  params: Promise<{ id: number }>;
+  params: Promise<{ id: string }>;
 }
 
 export default async function ListDetailPage({ params }: Props) {
@@ -18,13 +19,21 @@ export default async function ListDetailPage({ params }: Props) {
   const projectDetails = await getProjectDetails(id);
   console.log("Project details", projectDetails);
 
-  const projectTasks = await getProjectDetailsWithTasks(id);
-  console.log("Project tasks", projectDetails);
+  if (!projectDetails) {
+    notFound();
+  }
+
+  const projectWithTasks = await getProjectDetailsWithTasks(id);
+  console.log("Project with tasks", projectWithTasks);
+
+  if (!projectWithTasks) {
+    notFound();
+  }
 
   return (
     <ProjectDetailContent
       project={projectDetails}
-      tasks={projectTasks}
+      tasks={projectWithTasks.tasks || []}
       isOwner={userId === projectDetails.ownerId}
     />
   );

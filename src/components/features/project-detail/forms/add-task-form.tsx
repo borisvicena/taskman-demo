@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useState, useTransition } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useRouter } from "next/navigation";
 
 type Props = {
   projectId: string;
@@ -29,23 +30,32 @@ type Props = {
 };
 
 export default function AddTaskForm({ projectId, onSuccess }: Props) {
-  const [state, action, pending] = useActionState(createTask, undefined);
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
-  useEffect(() => {
-    if (state?.success) {
-      onSuccess?.();
-    }
-  }, [state, onSuccess]);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    startTransition(async () => {
+      const result = await createTask(projectId, formData);
+
+      if (result.error) {
+        setError(result.error);
+      } else {
+        onSuccess?.();
+        router.refresh();
+      }
+    });
+  };
 
   return (
-    <form action={action}>
+    <form onSubmit={handleSubmit}>
       <DialogHeader>
         <DialogTitle>New Task</DialogTitle>
         <DialogDescription>Add a new task to your project.</DialogDescription>
       </DialogHeader>
-
-      {/* Hidden input to pass the project ID */}
-      <input type="hidden" name="projectId" value={projectId} />
 
       <div className="py-4">
         <div className="space-y-2">
@@ -57,9 +67,6 @@ export default function AddTaskForm({ projectId, onSuccess }: Props) {
             autoFocus
             tabIndex={1}
           />
-          {state?.errors?.title && (
-            <p className="text-sm text-destructive">{state.errors.title[0]}</p>
-          )}
         </div>
       </div>
 
@@ -149,14 +156,14 @@ export default function AddTaskForm({ projectId, onSuccess }: Props) {
         </div>
       </div>
 
-      {state?.message && (
-        <p className="text-sm text-destructive">{state.message}</p>
+      {error && (
+        <p className="py-2 text-sm text-destructive">{error}</p>
       )}
 
       <DialogFooter>
-        <Button type="submit" disabled={pending} tabIndex={3}>
-          {pending && <Spinner />}
-          Create
+        <Button type="submit" disabled={isPending} tabIndex={8}>
+          {isPending && <Spinner />}
+          Create Task
         </Button>
       </DialogFooter>
     </form>

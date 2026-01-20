@@ -13,11 +13,11 @@ function getStatusVariant(
   status: ProjectStatus,
 ): "default" | "secondary" | "outline" {
   switch (status) {
-    case "Active":
+    case "active":
       return "default";
-    case "On-Hold":
+    case "on-hold":
       return "secondary";
-    case "Completed":
+    case "done":
       return "outline";
     default:
       return "default";
@@ -27,7 +27,7 @@ function getStatusVariant(
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link
-      href={`/projects/${project.id}`}
+      href={`/projects/${project._id}`}
       className="block cursor-pointer rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-all hover:shadow-md"
     >
       <div className="flex items-start justify-between">
@@ -41,21 +41,21 @@ export function ProjectCard({ project }: ProjectCardProps) {
         {project.description}
       </p>
 
-      <div className="mt-4">
+      {/* <div className="mt-4">
         <div className="flex items-center justify-between text-sm text-slate-500">
           <span>Progress</span>
           <span>{project.progress}%</span>
         </div>
         <Progress value={project.progress} className="mt-1" />
-      </div>
+      </div> */}
 
       <div className="mt-4 flex items-center justify-between text-sm text-slate-500">
-        <div className="flex items-center gap-1">
+        {/* <div className="flex items-center gap-1">
           <CheckSquare className="h-4 w-4" />
           <span>
             {project.completedTaskCount}/{project.totalTaskCount} tasks
           </span>
-        </div>
+        </div> */}
 
         <div className="flex items-center gap-1">
           <Users className="h-4 w-4" />

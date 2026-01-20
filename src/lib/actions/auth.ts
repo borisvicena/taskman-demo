@@ -6,25 +6,14 @@ import {
   LoginFormSchema,
 } from "@/lib/definitions";
 import { redirect } from "next/navigation";
-import { createSession, deleteSession } from "@/lib/session";
-
-export async function signupWithGoogle() {
-  const googleAuthUrl = process.env.NEXT_PUBLIC_API_URL;
-
-  if (!googleAuthUrl) {
-    // Handle missing env variable
-    return {
-      message: "Configuration error. Please try again later.",
-    };
-  }
-
-  redirect(`${googleAuthUrl}/api/auth/google`);
-}
+import { deleteSession } from "@/lib/session";
+import { connectDB } from "@/lib/mongodb";
+import User from "@/models/User";
+import bcrypt from "bcryptjs";
 
 export async function signup(state: FormState, formData: FormData) {
   // Validate form fields
   const validatedFields = SignupFormSchema.safeParse({
-    username: formData.get("username"),
     name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
@@ -36,82 +25,46 @@ export async function signup(state: FormState, formData: FormData) {
     };
   }
 
+  const { name, email, password } = validatedFields.data;
+
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(validatedFields.data),
-      },
-    );
+    await connectDB();
 
-    // Parse the response body
-    const data = await res.json();
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
 
-    // Handle non-2xx responses
-    if (!res.ok) {
+    if (existingUser) {
       return {
-        message: data.message || "Registration failed",
-        errors: data.errors || {},
+        message: "An account with this email already exists",
       };
     }
 
-    // Now data contains the user object
-    await createSession(data.id, data.token);
+    // Hash password
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    // Create new user
+    const newUser = await User.create({
+      name,
+      email,
+      passwordHash,
+    });
+
+    console.log("User created:", newUser._id);
+
+    // Redirect to login page after successful signup
+    redirect("/login");
   } catch (error) {
     console.error("Signup error:", error);
     return {
       message: "Something went wrong. Please try again.",
     };
   }
-
-  redirect("/");
-}
-
-export async function login(state: FormState, formData: FormData) {
-  const validatedFields = LoginFormSchema.safeParse({
-    email: formData.get("email"),
-    password: formData.get("password"),
-  });
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-    };
-  }
-
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(validatedFields.data),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      return {
-        message: data.message || "Invalid email or password",
-      };
-    }
-
-    await createSession(data.id, data.token);
-  } catch (error) {
-    console.error("Login error:", error);
-    return {
-      message: "Something went wrong. Please try again.",
-    };
-  }
-
-  redirect("/");
 }
 
 export async function logout() {
+  // Delete custom session if it exists
   await deleteSession();
-  redirect("/login");
+
+  // Redirect to NextAuth signout which will clear NextAuth session
+  redirect("/api/auth/signout");
 }

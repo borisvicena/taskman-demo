@@ -1,7 +1,7 @@
 // components/user-menu.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -24,8 +24,9 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User, LogOut } from "lucide-react";
 import Link from "next/link";
-import { logout } from "@/lib/actions/auth";
+import { signOut } from "next-auth/react";
 import { getInitials } from "@/lib/utils";
+import { Spinner } from "@/components/ui/spinner";
 
 interface UserMenuProps {
   user: {
@@ -37,6 +38,16 @@ interface UserMenuProps {
 
 export default function UserMenu({ user }: UserMenuProps) {
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  const handleLogout = async () => {
+    startTransition(async () => {
+      await signOut({
+        callbackUrl: "/login",
+        redirect: true,
+      });
+    });
+  };
 
   return (
     <>
@@ -90,11 +101,13 @@ export default function UserMenu({ user }: UserMenuProps) {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={() => logout()}
+              onClick={handleLogout}
+              disabled={isPending}
               className="bg-red-600 hover:bg-red-700"
             >
+              {isPending && <Spinner className="mr-2" />}
               Log Out
             </AlertDialogAction>
           </AlertDialogFooter>

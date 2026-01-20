@@ -53,7 +53,7 @@ export function CreateProjectModal({
         m.name.toLowerCase().includes(memberSearch.toLowerCase()) ||
         m.email.toLowerCase().includes(memberSearch.toLowerCase()),
     );
-    if (member && !addedMembers.find((m) => m.id === member.id)) {
+    if (member && !addedMembers.find((m) => m._id === member._id)) {
       setAddedMembers([...addedMembers, member]);
       setMemberSearch("");
     }
@@ -66,7 +66,7 @@ export function CreateProjectModal({
       description,
       dueDate: dueDate || undefined,
       status: status as ProjectStatus,
-      memberIds: addedMembers.map((m) => m.id),
+      memberIds: addedMembers.map((m) => m._id),
     });
     // Reset form
     setName("");

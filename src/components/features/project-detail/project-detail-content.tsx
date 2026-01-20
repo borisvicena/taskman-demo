@@ -1,10 +1,10 @@
 "use client";
 
-import { ChevronLeft, Plus } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import { ProjectHeader } from "./project-header";
-import { Project } from "@/lib/types";
+import { Project, Task } from "@/lib/types";
 import { ProjectTasks } from "./project-tasks";
+import { ProjectOverview } from "./project-overview";
 
 export function ProjectDetailContent({
   project,
@@ -12,7 +12,7 @@ export function ProjectDetailContent({
   isOwner,
 }: {
   project: Project;
-  tasks: any;
+  tasks: Task[];
   isOwner: boolean;
 }) {
   return (
@@ -26,7 +26,7 @@ export function ProjectDetailContent({
         <span>Back to Projects</span>
       </Link>
 
-      <ProjectHeader project={project} isOwner={isOwner} />
+      <ProjectOverview project={project} isOwner={isOwner} tasks={tasks} />
 
       <ProjectTasks project={project} tasks={tasks} />
     </div>

@@ -35,7 +35,7 @@ export function InviteMemberModal({
         m.email.toLowerCase().includes(memberSearch.toLowerCase()),
     );
     if (member) {
-      onSubmit?.(member.id);
+      onSubmit?.(member._id);
       setMemberSearch("");
       onOpenChange(false);
     }

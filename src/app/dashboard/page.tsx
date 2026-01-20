@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { getProjectDetailsWithTasks, getProjects } from "@/lib/dal";
+import { getProjects, verifySession } from "@/lib/dal";
 import { DashboardContent } from "@/components/features/dashboard/dashboard-content";
 
 export const metadata: Metadata = {
@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 export default async function Dashboard() {
   // Get all user projects
   const projects = await getProjects();
+  const session = await verifySession();
 
-  return <DashboardContent projects={projects} />;
+  return <DashboardContent projects={projects} userId={session.userId || ""} />;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import {
@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { deleteProject } from "@/lib/actions/project";
+import { useRouter } from "next/navigation";
 
 type Props = {
   projectId: string;
@@ -22,41 +23,49 @@ export default function DeleteProjectForm({
   projectName,
   onSuccess,
 }: Props) {
-  const [state, action, pending] = useActionState(deleteProject, undefined);
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
-  useEffect(() => {
-    if (state?.success) {
-      onSuccess?.();
-    }
-  }, [state, onSuccess]);
+  const handleDelete = () => {
+    startTransition(async () => {
+      const result = await deleteProject(projectId);
+
+      if (result.error) {
+        setError(result.error);
+      } else {
+        onSuccess?.();
+        router.refresh();
+      }
+    });
+  };
 
   return (
-    <form action={action}>
-      {/* Hidden input to pass the list ID */}
-      <input type="hidden" name="id" value={projectId} />
-
+    <div>
       <DialogHeader>
-        <DialogTitle>Delete Shopping List</DialogTitle>
+        <DialogTitle>Delete Project</DialogTitle>
         <DialogDescription>
           Are you sure you want to delete <strong>"{projectName}"</strong>? This
-          will permanently remove the list and all its items. This action cannot
+          will permanently remove the project and all its tasks. This action cannot
           be undone.
         </DialogDescription>
       </DialogHeader>
 
-      {state?.message && (
-        <p className="py-4 text-sm text-destructive">{state.message}</p>
+      {error && (
+        <p className="py-4 text-sm text-destructive">{error}</p>
       )}
 
-      <DialogFooter className="gap-2 sm:gap-0">
-        {/* <Button type="button" variant="outline" onClick={() => onSuccess?.()} disabled={pending}>
-					Cancel
-				</Button> */}
-        <Button type="submit" variant="destructive" disabled={pending}>
-          {pending && <Spinner />}
-          Delete List
+      <DialogFooter className="gap-2 sm:gap-0 mt-4">
+        <Button
+          type="button"
+          variant="destructive"
+          onClick={handleDelete}
+          disabled={isPending}
+        >
+          {isPending && <Spinner />}
+          Delete Project
         </Button>
       </DialogFooter>
-    </form>
+    </div>
   );
 }

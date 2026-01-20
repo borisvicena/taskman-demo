@@ -3,35 +3,43 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import SignInForm from "@/components/features/auth/sign-in-form";
-import SignUpForm from "@/components/features/auth/sign-up-form";
+import { LogIn } from "lucide-react";
 
 export default function LoginPage() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Welcome back</CardTitle>
-        <CardDescription>Sign in to your account to continue</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="mt-6 text-center text-sm">
-          <SignInForm />          
-        </div>
-        <div className="mt-6 text-center text-sm w-full">
-          <SignUpForm />
-          <span className="mt-4 text-zinc-600">Don't have an account? </span>
-          <Link
-            href="/signup"
-            className="font-medium text-zinc-900 hover:underline"
-          >
-            Sign up
-          </Link>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-background to-muted/20 p-4">
+      <div className="w-full max-w-md">
+        <Card className="shadow-xl border-t-4 border-t-primary">
+          <CardHeader className="space-y-3 text-center">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+              <LogIn className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
+            <CardDescription>
+              Sign in to your account to continue managing your projects
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SignInForm />
+
+            <div className="mt-6 text-center">
+              <p className="text-sm text-muted-foreground">
+                Don't have an account?{" "}
+                <Link
+                  href="/signup"
+                  className="font-semibold text-primary hover:underline"
+                >
+                  Sign up
+                </Link>
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   );
 }

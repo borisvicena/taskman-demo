@@ -1,24 +1,23 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { Pencil, Plus } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Plus } from "lucide-react";
 import {
   Card,
   CardAction,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Project } from "@/lib/types";
-import { DataTable } from "@/app/dashboard/projects/[id]/data-table";
-import { columns } from "@/app/dashboard/projects/[id]/columns";
+import { Project, Task } from "@/lib/types";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import AddTaskForm from "./forms/add-task-form";
 import { useState } from "react";
+import { ExpandableTaskTable } from "./expandable-task-table";
 
 type ProjectTasksProps = {
   project: Project;
-  tasks: any;
+  tasks: Task[];
 };
 
 export function ProjectTasks({ project, tasks }: ProjectTasksProps) {
@@ -34,7 +33,7 @@ export function ProjectTasks({ project, tasks }: ProjectTasksProps) {
             <DialogTrigger asChild>
               <Button className="gap-2">
                 <Plus className="h-4 w-4" />
-                Add Task
+                Create Task
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-4xl">
@@ -48,7 +47,7 @@ export function ProjectTasks({ project, tasks }: ProjectTasksProps) {
       </CardHeader>
 
       <CardContent>
-        <DataTable columns={columns} data={tasks} />
+        <ExpandableTaskTable tasks={tasks} projectId={project._id} />
       </CardContent>
     </Card>
   );

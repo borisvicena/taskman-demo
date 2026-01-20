@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Header } from "@/components/layout/header";
+// import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -25,6 +25,7 @@ import type {
 
 interface ProjectDetailPageProps {
   project: Project;
+  tasks?: Task[];
   availableMembers?: User[];
   onBack?: () => void;
   onCreateTask?: (data: {
@@ -45,7 +46,7 @@ interface TaskRowProps {
 
 function TaskRow({ task, projectId, level = 0 }: TaskRowProps) {
   const [isExpanded, setIsExpanded] = React.useState(true);
-  const hasSubtasks = task.subtasks && task.subtasks.length > 0;
+  const hasSubtasks = false; // task.subtasks && task.subtasks.length > 0;
 
   return (
     <>
@@ -74,11 +75,11 @@ function TaskRow({ task, projectId, level = 0 }: TaskRowProps) {
               <div className="w-5" />
             )}
             <Link
-              href={`/projects/${projectId}/tasks/${task.id}`}
+              href={`/projects/${projectId}/tasks/${task._id}`}
               className="flex-1 hover:text-blue-600"
             >
               <p className="font-medium text-slate-900 hover:text-blue-600">
-                {task.name}
+                {task.title}
               </p>
               {task.description && (
                 <p className="text-sm text-slate-500">{task.description}</p>
@@ -87,7 +88,7 @@ function TaskRow({ task, projectId, level = 0 }: TaskRowProps) {
           </div>
         </td>
         <td className="py-3 px-4 text-slate-600">
-          {task.assignee?.name || "-"}
+          {task.assignedTo?.name || "-"}
         </td>
         <td className="py-3 px-4">
           <Badge variant={"default"}>{task.status}</Badge>
@@ -100,11 +101,11 @@ function TaskRow({ task, projectId, level = 0 }: TaskRowProps) {
           {task.dueDate ? formatDate(task.dueDate) : "-"}
         </td>
       </tr>
-      {hasSubtasks &&
+      {/* {hasSubtasks &&
         isExpanded &&
         task.subtasks.map((subtask) => (
           <tr
-            key={subtask.id}
+            key={subtask._id}
             className="border-b border-slate-100 hover:bg-slate-50 bg-slate-50/50"
           >
             <td className="py-3 px-4">
@@ -112,7 +113,7 @@ function TaskRow({ task, projectId, level = 0 }: TaskRowProps) {
                 className="flex items-center gap-2"
                 style={{ paddingLeft: `${(level + 1) * 24 + 20}px` }}
               >
-                <p className="text-slate-700">{subtask.name}</p>
+                <p className="text-slate-700">{subtask.title}</p>
               </div>
             </td>
             <td className="py-3 px-4 text-slate-600">-</td>
@@ -122,13 +123,14 @@ function TaskRow({ task, projectId, level = 0 }: TaskRowProps) {
             <td className="py-3 px-4 text-slate-600">-</td>
             <td className="py-3 px-4 text-slate-600">-</td>
           </tr>
-        ))}
+        ))} */}
     </>
   );
 }
 
 export function ProjectDetailPage({
   project,
+  tasks = [],
   availableMembers = [],
   onBack,
   onCreateTask,
@@ -141,7 +143,7 @@ export function ProjectDetailPage({
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Header />
+      {/* <Header /> */}
 
       <main className="mx-auto max-w-7xl px-6 py-8">
         {/* Back button */}
@@ -165,13 +167,13 @@ export function ProjectDetailPage({
             <Badge variant={"default"}>{project.status}</Badge>
           </div>
 
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <div className="flex items-center justify-between text-sm text-slate-500">
               <span>Progress</span>
               <span>{project.progress}%</span>
             </div>
             <Progress value={project.progress} className="mt-2" />
-          </div>
+          </div> */}
 
           <div className="mt-6 flex items-center justify-between">
             <div className="flex items-center gap-6">
@@ -190,8 +192,7 @@ export function ProjectDetailPage({
                 <span className="text-sm text-slate-500">Team members</span>
                 <br />
                 <span className="text-sm text-slate-700">
-                  {project.members.map((m) => m.name).join(", ") ||
-                    "No members"}
+                  {project.members.length} member{project.members.length !== 1 ? 's' : ''}
                 </span>
               </div>
               <button
@@ -235,13 +236,13 @@ export function ProjectDetailPage({
                 </tr>
               </thead>
               <tbody>
-                {project.tasks.map((task) => (
-                  <TaskRow key={task.id} task={task} projectId={project.id} />
+                {tasks.map((task) => (
+                  <TaskRow key={task._id} task={task} projectId={project._id} />
                 ))}
               </tbody>
             </table>
 
-            {project.tasks.length === 0 && (
+            {tasks.length === 0 && (
               <div className="py-12 text-center">
                 <p className="text-slate-500">No tasks yet</p>
                 <Button
