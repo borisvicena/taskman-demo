@@ -27,7 +27,7 @@ export default async function Navbar() {
           </Link>
 
           <div className="flex items-center gap-4">
-            {isAuthenticated ? (
+            {isAuthenticated && user ? (
               <UserMenu user={user} />
             ) : (
               <div className="flex items-center gap-2">

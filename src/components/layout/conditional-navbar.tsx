@@ -21,7 +21,7 @@ export default function ConditionalNavbar() {
     ? {
         name: session.user.name || "User",
         email: session.user.email || "",
-        avatarUrl: session.user.image,
+        avatarUrl: session.user.image ?? undefined,
       }
     : null;
 

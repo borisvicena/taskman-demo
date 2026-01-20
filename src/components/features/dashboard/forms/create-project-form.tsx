@@ -60,11 +60,6 @@ export default function CreateProjectForm({ onSuccess }: Props) {
             placeholder="Super secret project"
             tabIndex={2}
           />
-          {state?.errors?.description && (
-            <p className="text-sm text-destructive">
-              {state.errors.description[0]}
-            </p>
-          )}
         </div>
       </div>
 

@@ -237,10 +237,10 @@ export function TaskDetailPage({
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-2">
                         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-sm font-medium text-blue-700">
-                          {comment.user.initials}
+                          {comment.authorName ? comment.authorName.substring(0, 2).toUpperCase() : "U"}
                         </div>
                         <span className="text-slate-900">
-                          {comment.user.name}
+                          {comment.authorName || "Unknown User"}
                         </span>
                       </div>
                     </td>
@@ -248,7 +248,7 @@ export function TaskDetailPage({
                       {comment.content}
                     </td>
                     <td className="py-3 px-4 text-slate-600">
-                      {formatDate(comment.createdAt)}
+                      {formatDate(new Date(comment.createdAt))}
                     </td>
                   </tr>
                 ))}
